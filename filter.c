@@ -1,7 +1,7 @@
 #include <srvsh.h>
 #include <stdio.h>
 
-int opcode = -1;
+int cmd_opcode = -1;
 
 void filter(
 	int fd,
@@ -25,7 +25,7 @@ void filter(
 		return;
 	}
 
-	if (opcode != opcode)
+	if (opcode != cmd_opcode)
 		return;
 
 	for (int cli = CLI_BEGIN; cli < cli_end(); cli++) {
@@ -58,8 +58,8 @@ int main(int argc, char **argv)
 	if (!db)
 		return 1;
 
-	opcode = get_opcode(db, argv[1]);
-	if (opcode < 0)
+	cmd_opcode = get_opcode(db, argv[1]);
+	if (cmd_opcode < 0)
 		return 1;
 
 	int count = cli_count();
