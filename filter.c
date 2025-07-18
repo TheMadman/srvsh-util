@@ -67,10 +67,13 @@ int main(int argc, char **argv)
 	struct pollfd result = { 0 };
 	while (count > 0) {
 		result = pollop(filter, NULL, -1);
+
+		if (result.fd < 0)
+			return 1;
+
 		if (result.fd == SRV_FILENO && closed(result))
 			return 0;
-
-		if (closed(result))
+		else if (closed(result))
 			count--;
 	}
 	return 0;
