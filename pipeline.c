@@ -56,6 +56,7 @@ int main()
 
 				if (sendmsg(next_fd(current->fd, total), &msg, 0) < 0)
 					return 1;
+				close_cmsg_fds(msg.msg_control, msg.msg_controllen);
 			} else if (current->revents & POLLHUP) {
 				return 0;
 			} else if (

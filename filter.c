@@ -1,3 +1,8 @@
+#include <sys/socket.h>
+
+#include <unistd.h>
+#include <string.h>
+#include <stdlib.h>
 #include <srvsh.h>
 #include <stdio.h>
 
@@ -22,11 +27,14 @@ void filter(
 			cmsg,
 			cmsg_len
 		);
+		close_cmsg_fds(cmsg, cmsg_len);
 		return;
 	}
 
-	if (opcode != cmd_opcode)
+	if (opcode != cmd_opcode) {
+		close_cmsg_fds(cmsg, cmsg_len);
 		return;
+	}
 
 	for (int cli = CLI_BEGIN; cli < cli_end(); cli++) {
 		sendmsgop(
@@ -37,6 +45,7 @@ void filter(
 			cmsg,
 			cmsg_len
 		);
+		close_cmsg_fds(cmsg, cmsg_len);
 	}
 }
 
