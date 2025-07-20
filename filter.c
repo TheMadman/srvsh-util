@@ -18,7 +18,7 @@ void filter(
 	void *context
 )
 {
-	if (is_client(fd)) {
+	if (is_cli(fd)) {
 		sendmsgop(
 			SRV_FILENO,
 			opcode,
