@@ -3,8 +3,8 @@ let
 	srvsh = import (pkgs.fetchFromGitHub {
 		owner = "TheMadman";
 		repo = "srvsh";
-		rev = "df6e1404efab4c3db91a34b3b8c0aabc30a21d85";
-		hash = "sha256-tRBfTDXaln+74nJhTAjX/aVcOr9EDq+uy0F3PNOXMIA=";
+		rev = "617beb9145590a78504b2721b7deaeba3902d69d";
+		hash = "sha256-yp//WSfS6r9db6osLh3uxVXhb2yv4tFALM6D+Dd+mkE=";
 	});
 in
 pkgs.stdenv.mkDerivation {

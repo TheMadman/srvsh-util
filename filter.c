@@ -13,8 +13,7 @@ void filter(
 	int opcode,
 	void *buffer,
 	int length,
-	void *cmsg,
-	size_t cmsg_len,
+	struct msghdr header,
 	void *context
 )
 {
@@ -24,15 +23,15 @@ void filter(
 			opcode,
 			buffer,
 			length,
-			cmsg,
-			cmsg_len
+			header.msg_control,
+			header.msg_controllen
 		);
-		close_cmsg_fds(cmsg, cmsg_len);
+		close_cmsg_fds(header);
 		return;
 	}
 
 	if (opcode != cmd_opcode) {
-		close_cmsg_fds(cmsg, cmsg_len);
+		close_cmsg_fds(header);
 		return;
 	}
 
@@ -42,18 +41,16 @@ void filter(
 			opcode,
 			buffer,
 			length,
-			cmsg,
-			cmsg_len
+			header.msg_control,
+			header.msg_controllen
 		);
-		close_cmsg_fds(cmsg, cmsg_len);
+		close_cmsg_fds(header);
 	}
 }
 
 int closed(struct pollfd fd)
 {
-	return fd.revents & POLLERR
-		|| fd.events & POLLNVAL
-		|| fd.events & POLLHUP;
+	return !(fd.revents & POLLIN);
 }
 
 int main(int argc, char **argv)
